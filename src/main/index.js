@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import ProductList from '../components/ProductList';
 import './index.css';
+import main_image from '../images/gangwon_fim_main.jpg'
 
 const data = [
     {
@@ -26,11 +27,12 @@ const data = [
     },
 ]
 
+
 const MainPage = () => {
     return (
         <div className='main'>
             <div className='visual'>
-                <img src="../images/gangwon_fim_main.jpg" alt="배너이미지1" />
+                <img src={main_image} alt="배너이미지1" height={200} />
             </div>
             <div className="product">
                 <h2>신상품</h2>
