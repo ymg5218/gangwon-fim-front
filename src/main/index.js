@@ -7,7 +7,7 @@ const MainPage = () => {
     const [items, setItems] = useState([]);
 
     useEffect(() => {
-        axios.get("http://localhost:3000/items-for-sale/findAll")
+        axios.get("http://localhost:3000/items-for-sale/findAllWithCategory")
             .then((response) => {
                 console.log(response.data);
                 setItems(response.data);
@@ -29,12 +29,12 @@ const MainPage = () => {
                         <ProductList
                             key={pro.item_id}
                             item_id={pro.item_id}
-                            cat_id={pro.cat_id}
-                            item_name={pro.p_name}
+                            item_name={pro.item_name}
                             item_price={pro.item_price}
                             item_unit={pro.item_unit}
                             item_origin={pro.item_origin}
                             item_info={pro.item_info}
+                            category={pro.detailedCategory.detailed_cat_name}
                         />
                     )}
                 </ul>
