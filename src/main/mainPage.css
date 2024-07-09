@@ -22,6 +22,7 @@
     width: 25%;
     /* border: 1px solid #ddd; */
     padding-bottom: 20px;
+    list-style-type: none;
 }
 
 .product ul li img {
@@ -38,13 +39,18 @@
 
 .productDetail {
     margin: 0 auto;
-    width: 100%;
     max-width: 1200px;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid black;
+    width: 50%;
+    display: grid;
+    height: 50vh;
 }
 
 .productDetail h2 {
-    padding-top: 30px;
     padding-bottom: 30px;
+
 }
 
 .productImg {

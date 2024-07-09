@@ -2,8 +2,8 @@ import './App.css';
 import React, { Component } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import { Route, Routes } from 'react-router-dom';
-import MainPage from './main';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import MainPage from './main/mainPage';
 import ProductPage from './components/ProductPage';
 
 function App() {
@@ -11,9 +11,10 @@ function App() {
     <div className="App">
       <Header />
       <Routes>
-        <Route path='/' element={<MainPage />} />
+        <Route exact path='/' element={<MainPage />} />
         <Route path='/detailedView/:p_id' element={<ProductPage />} />
       </Routes>
+
       <Footer />
     </div>
   );
