@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import ProductList from '../components/ProductList';
 import './mainPage.css';
+import CategoryTabs from '../components/CategoryTabs';
 
 const MainPage = () => {
     const [items, setItems] = useState([]);
@@ -21,6 +22,9 @@ const MainPage = () => {
         <div className='main'>
             <div className='visual'>
                 <img src={`images/gangwon_fim_main.jpg`} alt="배너이미지1" height={200} />
+            </div>
+            <div className='category-tabs'>
+                <CategoryTabs />
             </div>
             <div className="product">
                 <h2>신상품</h2>
