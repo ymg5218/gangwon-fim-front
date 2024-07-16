@@ -22,7 +22,7 @@ const CategoryPage = () => {
                     <h3>{detail.detailed_cat_name}</h3>
                     <ul>
                         {detail.items.map(item => (
-                            <li key={item.item_id}>
+                            <li key={item.item_id} className="">
                                 <Link to={`/detailedView/${item.item_id}`}>
                                     {item.item_name} - {item.item_price}
                                 </Link>

@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
 import './CategoryTabs.css';
 import axios from 'axios';
+import ProductList from './ProductList';
 
-const CategoryTabs = () => {
+const CategoryTabs = ({ onCategoryClick }) => {
     const [topCategories, setTopCategories] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [items, setItems] = useState([]);
 
     useEffect(() => {
         axios.get("http://localhost:3000/top-categories/findAll")
             .then((response) => {
-                console.log(response.data);
                 setTopCategories(response.data);
             })
             .catch((error) => {
@@ -17,16 +18,14 @@ const CategoryTabs = () => {
             });
     }, []);
 
-    const [selectedCategory, setSelectedCategory] = useState(null);
-    const [items, setItems] = useState([]);
-    const navigate = useNavigate();
-
     const handleCategoryClick = (category) => {
-        axios.get(`http://localhost:3000/top-categories/getItemsByCategory/${category.id}`)
-            .then(response => {
-                setSelectedCategory(category);
-                setItems(response.data.detailedCategory.flatMap(dc => dc.items));
-                navigate(`/category/${category.id}`);
+        setSelectedCategory(category);
+        axios.get(`http://localhost:3000/items-for-sale/findOneWithCategory/${category.top_cat_id}`)
+            .then((response) => {
+                setItems(response.data);
+                if (onCategoryClick) {
+                    onCategoryClick();
+                }
             })
             .catch(error => console.error('Error fetching products: ', error));
     }
@@ -35,25 +34,31 @@ const CategoryTabs = () => {
         <div>
             <nav className='category-nav'>
                 {topCategories.map(category => (
-                    <button key={category.id} onClick={() => handleCategoryClick(category)}>
+                    <button key={category.top_cat_id} onClick={() => handleCategoryClick(category)}>
                         {category.top_cat_name}
                     </button>
                 ))}
             </nav>
             {selectedCategory && (
-                <div className=''>
-                    <h2>{selectedCategory.name}</h2>
-                    {items.map(item => (
-                        <li key={item.item_id}>
-                            <Link to={`/detailedView/${item.item_id}`}>
-                                {item.item_name} - {item.item_price}
-                            </Link>
-                        </li>
-                    ))}
+                <div className="product">
+                    <h2>{selectedCategory.top_cat_name}</h2>
+                    <ul>
+                        {items.map(pro =>
+                            <ProductList
+                                key={pro.item_id}
+                                item_id={pro.item_id}
+                                item_name={pro.item_name}
+                                item_price={pro.item_price}
+                                item_unit={pro.item_unit}
+                                item_origin={pro.item_origin}
+                                item_info={pro.item_info}
+                                category={pro.detailedCategory.detailed_cat_name}
+                            />
+                        )}
+                    </ul>
                 </div>
             )}
         </div>
-
     );
 };
 
