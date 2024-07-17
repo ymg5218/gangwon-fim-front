@@ -23,12 +23,11 @@ const CategoryTabs = ({ onCategoryClick }) => {
         axios.get(`http://localhost:3000/items-for-sale/findOneWithCategory/${category.top_cat_id}`)
             .then((response) => {
                 setItems(response.data);
-                if (onCategoryClick) {
-                    onCategoryClick();
-                }
+                onCategoryClick(); // 부모 컴포넌트로 이벤트 전달
+
             })
             .catch(error => console.error('Error fetching products: ', error));
-    }
+    };
 
     return (
         <div>
