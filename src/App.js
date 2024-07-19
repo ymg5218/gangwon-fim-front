@@ -6,6 +6,7 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import MainPage from './main/mainPage';
 import ProductPage from './components/ProductPage';
 import CategoryTabs from './components/CategoryTabs';
+import UploadItem from './components/UploadItem';
 
 function App() {
   const [showMainPage, setShowMainPage] = useState(true);
@@ -14,8 +15,7 @@ function App() {
   const handleCategoryClick = () => {
     console.log("카테고리 핸들러 작동");
     setShowMainPage(false);
-    navigate('/category');
-  };
+  }
 
   const handleHomeClick = () => {
     console.log("홈 핸들러 작동");
@@ -29,11 +29,13 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={showMainPage ? <MainPage /> : <CategoryTabs onCategoryClick={handleCategoryClick} />}
+          element={showMainPage && <MainPage />}
         />
-        <Route path="/category" element={<CategoryTabs onCategoryClick={handleCategoryClick} />} />
+        <Route element={!showMainPage && <CategoryTabs onCategoryClick={handleCategoryClick} />} />
         <Route path="/detailedView/:p_id" element={<ProductPage />} />
+        <Route path='/upload' element={<UploadItem />} />
       </Routes>
+
       <Footer />
     </div>
   );
