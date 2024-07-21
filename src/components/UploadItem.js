@@ -10,26 +10,30 @@ const UploadItem = () => {
         item_unit: '',
         item_origin: '',
         item_info: '',
+        image: null,
     });
 
     const handleChange = (e) => {
+        const { name, value, files } = e.target;
         setFormData({
             ...formData,
-            [e.target.name]: e.target.value,
+            [name]: files ? files[0] : value,
         });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const dataToSend = {
-            ...formData,
-            cat_id: parseInt(formData.cat_id, 10),
-            item_unit: parseInt(formData.item_unit),
-            item_price: parseInt(formData.item_price)
-        };
+        const dataToSend = new FormData();
+        Object.keys(formData).forEach(key => {
+            dataToSend.append(key, formData[key]);
+        });
 
-        axios.post('http://localhost:3000/items-for-sale/createItem', dataToSend)
+        axios.post('http://localhost:3000/items-for-sale/createItem', dataToSend, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        })
             .then(response => {
                 alert("상품이 성공적으로 업로드 되었습니다!");
             })
@@ -65,6 +69,10 @@ const UploadItem = () => {
                 <div>
                     <label>상품 정보:</label>
                     <textarea name="item_info" value={formData.item_info} onChange={handleChange} required />
+                </div>
+                <div>
+                    <label>이미지:</label>
+                    <input type='file' name="image" onChange={handleChange} required />
                 </div>
                 <button type="submit">등록</button>
             </form>
